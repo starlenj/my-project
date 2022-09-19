@@ -1,2 +1,2 @@
 # my-project
-My Project For Hobbie
+Proje Kurulumu icin once docker kurun sonra docker-compose up komutu ile projeyi tamamen ayaga kaldirabilirsiniz
