@@ -1,0 +1,56 @@
+version: "3.8"
+services:
+  nginx:
+    image: jwilder/nginx-proxy:latest
+    volumes:
+      - //var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      - DEFAULT_HOST=proxy.example
+    ports:
+      - "8081:80"
+
+
+  graph-server:
+    build:
+      context: ./graph-server
+    ports:
+      - "8080:4001"
+    networks:
+      - backend
+
+    environment:
+      user_service_url: http://user-microservice:4001/api/v1
+      category_service_url: http://category-microservice:4000/api/v1
+      sube_service_url: http://sube-microservice:4002/api/v1
+      customer_service_url: http://customer-microservice:4003/api/v1
+      option_service_url: http://option-microservice:4004/api/v1
+
+  postgres:
+    image: postgres:10.4
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user-db
+    ports:
+      - "35000:5432"
+    networks:
+      - backend
+  pgadmin:
+    container_name: pgadmin
+    image: dpage/pgadmin4
+    ports:
+      - 127.0.0.1:1234:80
+    environment:
+      PGADMIN_DEFAULT_EMAIL: emreatessoy@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: emre0209
+    networks:
+      - backend
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+networks:
+  backend:
+volumes:
+  nodemodules: { }
