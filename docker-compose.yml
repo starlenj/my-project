@@ -1,15 +1,5 @@
 version: "3.8"
 services:
-  nginx:
-    image: jwilder/nginx-proxy:latest
-    volumes:
-      - //var/run/docker.sock:/tmp/docker.sock:ro
-    environment:
-      - DEFAULT_HOST=proxy.example
-    ports:
-      - "8081:80"
-
-
   graph-server:
     build:
       context: ./graph-server
