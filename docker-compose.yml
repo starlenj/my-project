@@ -1,5 +1,6 @@
 version: "3.8"
 services:
+
   graph-server:
     build:
       context: ./graph-server
@@ -7,14 +8,24 @@ services:
       - "8080:4001"
     networks:
       - backend
-
+  user-service:
+    build:
+      context: ./user-service
+    volumes:
+      - ./user-service:/src/
+      - nodemodules:/src/node_modules
+    command: npm run start:dev
+    links:
+      - postgres
+      - redis
     environment:
-      user_service_url: http://user-microservice:4001/api/v1
-      category_service_url: http://category-microservice:4000/api/v1
-      sube_service_url: http://sube-microservice:4002/api/v1
-      customer_service_url: http://customer-microservice:4003/api/v1
-      option_service_url: http://option-microservice:4004/api/v1
-
+      DATABASE_URL: postgres://user:password@postgres:5432/user-db
+      NODE_ENV: development
+    ports:
+      - "4000:4000"
+      - "9231:9229"
+    networks:
+      - backend
   postgres:
     image: postgres:10.4
     environment:
