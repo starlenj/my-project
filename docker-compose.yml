@@ -1,11 +1,19 @@
 version: "3.8"
 services:
-
+  category-service:
+    build:
+        context: ./category-service
+        dockerfile: Dockerfile
+    ports:
+      - "1111:4444"
+    restart: unless-stopped
+    networks:
+      - backend
   graph-server:
     build:
       context: ./graph-server
     ports:
-      - "8080:4001"
+      - "1112:4001"
     networks:
       - backend
   user-service:

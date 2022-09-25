@@ -6,5 +6,5 @@ export declare class AuthController {
     private userService;
     private authService;
     constructor(userService: UserService, authService: AuthService);
-    Login(loginUser: UserLoginDTO): Promise<ErrorDTO | import("rxjs").Observable<string>>;
+    Login(loginUser: UserLoginDTO): Promise<import("rxjs").Observable<string> | ErrorDTO>;
 }
